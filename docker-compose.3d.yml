@@ -1,0 +1,20 @@
+services:
+  smash:
+    build:
+      context: ./jone-3d
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.smash.rule=Host(`${SUBDOMAIN_3D}.${DOMAIN_NAME_3D}`)
+      - traefik.http.routers.smash.entrypoints=web,websecure
+      - traefik.http.routers.smash.tls=true
+      - traefik.http.services.smash.loadbalancer.server.port=80
+
+networks:
+  traefik:
+    external: true

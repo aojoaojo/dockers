@@ -1,0 +1,11 @@
+docker run -it -d \
+  --name n8n \
+  -p 5678:5678 \
+  -v ~/.n8n:/home/node/.n8n \
+  -e N8N_HOST=0.0.0.0 \
+  -e N8N_PORT=5678 \
+  -e N8N_PROTOCOL=http \
+  -e N8N_EDITOR_BASE_URL=http://192.168.0.66:5678 \
+  -e WEBHOOK_URL=083db945f2ca.ngrok-free.app \
+  --restart unless-stopped \
+  n8nio/n8n

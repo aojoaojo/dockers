@@ -1,0 +1,22 @@
+services:
+  nextjs-app:
+    build:
+      context: ./jone-piece/jone-piece
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - /media/aojoaojo/brabo/jone-piece/caps_en:/app/public/caps_en
+      - /media/aojoaojo/brabo/jone-piece/One_Piece_Colored:/app/public/One_Piece_Colored
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jone.rule=Host(`${DOMAIN_NAME_JONE}`)
+      - traefik.http.routers.jone.entrypoints=web,websecure
+      - traefik.http.routers.jone.tls=true
+
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,29 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      - /home/aojoaojo/Documentos:/srv
+      - /media/aojoaojo/brabo/Media:/srv/LivrosAna
+      - /home/aojoaojo/code/pessoal/dockers/filebrowser.db:/database.db
+    command: ["-d", "/database.db", "-a", "0.0.0.0", "-p", "8080"]
+    networks:
+      - traefik
+
+    healthcheck:
+      disable: true
+
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.fb-final.rule=Host(`${SUBDOMAIN_FILE}.${DOMAIN_NAME_FILE}`)
+      - traefik.http.routers.fb-final.entrypoints=web,websecure
+      - traefik.http.routers.fb-final.tls=true
+      - traefik.http.services.fb-final.loadbalancer.server.port=8080
+
+networks:
+  traefik:
+    external: true

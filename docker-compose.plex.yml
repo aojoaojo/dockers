@@ -1,0 +1,44 @@
+services:
+  plex:
+    image: plexinc/pms-docker:latest # Set specific: plexinc/pms-docker:1.40.2.8395-c67dce28e
+    container_name: plex
+    network_mode: host # Change this to 'bridge' to define ports, example ports below
+    #ports:
+    #- 32400:32400/tcp
+    #- 8324:8324/tcp
+    #- 32469:32469/tcp
+    #- 1900:1900/udp
+    #- 32410:32410/udp
+    #- 32412:32412/udp
+    #- 32413:32413/udp
+    #- 32414:32414/udp
+    # Uncomment the devices section for tv tuners and intel gpus
+    devices:
+      #- /dev/dvb:/dev/dvb # Uncomment this device for typical USB TV Tuner cards
+      - /dev/dri:/dev/dri # Uncomment this to use intel GPUs for Hardware Transcoding
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/BRT # Change this to match your server's timezone
+      - PLEX_CLAIM=claim-9qpjBBRWPTy7GCxMFcp4 # Uncomment this to setup Plex server, get your claim code from here - https://www.plex.tv/claim/
+      # Uncomment the lines below to use Nvidia GPUs for Hardware Transcoding
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # Sync the container's time to the host's time
+      - ./plexmediaserver:/config # Plex server application data is stored in a folder called 'plexmediaserver' in the same directory as the docker-compose.yaml file
+      # Uncomment the lines below for each library,
+      # make sure the path on the left of the colon (:) exists on the host! `/mnt/tv`
+      - ./media/tv:/mnt/tv
+      - ./media/movies:/mnt/movies
+      - ./media/music:/mnt/music
+      - ./media/transcode:/mnt/transcode
+    restart: unless-stopped
+    # Uncomment the lines below to use Nvidia GPUs for Hardware Transcoding
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

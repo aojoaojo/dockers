@@ -1,0 +1,27 @@
+services:
+  n8n:
+    container_name: n8n
+    build:
+      context: ./n8n-compose
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - N8N_HOST=${SUBDOMAIN_N8N}.${DOMAIN_NAME_N8N}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://${SUBDOMAIN_N8N}.${DOMAIN_NAME_N8N}/
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+    volumes:
+      - /home/aojoaojo/.n8n:/home/node/.n8n
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.n8n.rule=Host(`${SUBDOMAIN_N8N}.${DOMAIN_NAME_N8N}`)
+      - traefik.http.routers.n8n.entrypoints=web,websecure
+      - traefik.http.routers.n8n.tls=true
+
+networks:
+  traefik:
+    external: true
