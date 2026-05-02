@@ -6,9 +6,11 @@ services:
     restart: always
     environment:
       - NODE_ENV=production
+      - API_URL=http://jonepiece-api:4000
+      - NEXT_PUBLIC_API_URL=https://${DOMAIN_NAME_JONE_API}
     volumes:
-      - /media/aojoaojo/brabo/jone-piece/caps_en:/app/public/caps_en
-      - /media/aojoaojo/brabo/jone-piece/One_Piece_Colored:/app/public/One_Piece_Colored
+      - ${JONE_PIECE_MEDIA_DIR}/caps_en:/app/public/caps_en
+      - ${JONE_PIECE_MEDIA_DIR}/One_Piece_Colored:/app/public/One_Piece_Colored
     networks:
       - traefik
     labels:

@@ -1,0 +1,30 @@
+services:
+  jonepiece-api:
+    build:
+      context: ./jone-piece/jone-piece/backend
+      dockerfile: Dockerfile
+    restart: always
+    container_name: jonepiece-api
+    ports:
+      - "127.0.0.1:4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - DATABASE_URL=postgres://jonepiece:${POSTGRES_PASSWORD}@jonepiece-db:5432/jonepiece
+      - ALLOWED_ORIGIN=https://${DOMAIN_NAME_JONE},http://localhost:3000,http://localhost:3001
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - traefik
+      - jonepiece_net
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jonepiece-api.rule=Host(`${DOMAIN_NAME_JONE_API}`)
+      - traefik.http.routers.jonepiece-api.entrypoints=web,websecure
+      - traefik.http.routers.jonepiece-api.tls=true
+      - traefik.http.services.jonepiece-api.loadbalancer.server.port=4000
+
+networks:
+  traefik:
+    external: true
+  jonepiece_net:
+    external: true
