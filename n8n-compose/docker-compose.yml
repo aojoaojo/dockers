@@ -53,7 +53,7 @@ services:
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
     volumes:
-      - /home/aojoaojo/.n8n:/home/node/.n8n
+      - /home/aojo/.n8n:/home/node/.n8n
     
 volumes:
   n8n_data:

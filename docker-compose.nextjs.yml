@@ -3,6 +3,7 @@ services:
     build:
       context: ./jone-piece/jone-piece
       dockerfile: Dockerfile
+    container_name: nextjs-app
     restart: always
     environment:
       - NODE_ENV=production

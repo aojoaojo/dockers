@@ -13,7 +13,7 @@ services:
       - WEBHOOK_URL=https://${SUBDOMAIN_N8N}.${DOMAIN_NAME_N8N}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
     volumes:
-      - /home/aojoaojo/.n8n:/home/node/.n8n
+      - /home/aojo/.n8n:/home/node/.n8n
     networks:
       - traefik
     labels:
