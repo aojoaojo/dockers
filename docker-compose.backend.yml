@@ -1,7 +1,7 @@
 services:
   jonepiece-api:
     build:
-      context: ./jone-piece/jone-piece/backend
+      context: ./backend
       dockerfile: Dockerfile
     restart: always
     container_name: jonepiece-api
