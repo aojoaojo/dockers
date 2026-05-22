@@ -3,11 +3,13 @@ services:
     build:
       context: ./jone-piece/jone-piece
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://${DOMAIN_NAME_JONE_API}
     container_name: nextjs-app
     restart: always
     environment:
       - NODE_ENV=production
-      - API_URL=http://jonepiece-api:4000
+      - API_URL=http://jonepiece-api:4000/jone-piece
       - NEXT_PUBLIC_API_URL=https://${DOMAIN_NAME_JONE_API}
     volumes:
       - ${JONE_PIECE_MEDIA_DIR}/caps_en:/app/public/caps_en
