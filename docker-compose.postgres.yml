@@ -1,4 +1,9 @@
 services:
+  # Postgres compartilhado entre as APIs do backend.
+  # Hospeda múltiplos schemas dentro do database `jonepiece`:
+  #   - public  → arcos, highlights e config do Jone Piece
+  #   - users   → autenticação JWT (compartilhada entre apps)
+  #   - bolao   → bolão da Copa 2026 (participantes, palpites, resultados, ranking)
   jonepiece-db:
     image: postgres:16-alpine
     restart: always
