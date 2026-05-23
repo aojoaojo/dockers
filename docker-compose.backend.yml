@@ -1,10 +1,10 @@
 services:
-  jonepiece-api:
+  jone-api:
     build:
       context: ./backend
       dockerfile: Dockerfile
     restart: always
-    container_name: jonepiece-api
+    container_name: jone-api
     ports:
       - "127.0.0.1:4000:4000"
     environment:
@@ -18,10 +18,10 @@ services:
       - jonepiece_net
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jonepiece-api.rule=Host(`${DOMAIN_NAME_JONE_API}`)
-      - traefik.http.routers.jonepiece-api.entrypoints=web,websecure
-      - traefik.http.routers.jonepiece-api.tls=true
-      - traefik.http.services.jonepiece-api.loadbalancer.server.port=4000
+      - traefik.http.routers.jone-api.rule=Host(`${DOMAIN_NAME_JONE_API}`)
+      - traefik.http.routers.jone-api.entrypoints=web,websecure
+      - traefik.http.routers.jone-api.tls=true
+      - traefik.http.services.jone-api.loadbalancer.server.port=4000
 
 networks:
   traefik:
