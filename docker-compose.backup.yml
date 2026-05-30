@@ -1,0 +1,27 @@
+services:
+  # Backup automático do Postgres `jonepiece`.
+  # Usa a mesma imagem do banco (pg_dump 16 compatível) e roda o script
+  # scripts/pg_backup.sh em loop: um dump comprimido a cada 4h, mantendo
+  # os últimos 4 dias. Os dumps ficam na pasta backups/ do volume de mídia
+  # do Jone Piece (ao lado de caps_en/, sem misturar com os capítulos).
+  jonepiece-backup:
+    image: postgres:16-alpine
+    restart: always
+    container_name: jonepiece-backup
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: jonepiece
+      POSTGRES_DB: jonepiece
+      PGHOST: jonepiece-db
+      BACKUP_INTERVAL_SECONDS: 14400   # 4 horas
+      RETENTION_DAYS: 4
+    volumes:
+      - ${JONE_PIECE_MEDIA_DIR}/backups:/backups
+      - ./scripts/pg_backup.sh:/usr/local/bin/pg_backup.sh:ro
+    entrypoint: ["/bin/sh", "/usr/local/bin/pg_backup.sh"]
+    networks:
+      - jonepiece_net
+
+networks:
+  jonepiece_net:
+    external: true
