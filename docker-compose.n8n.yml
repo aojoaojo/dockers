@@ -14,6 +14,10 @@ services:
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
     volumes:
       - /home/aojo/.n8n:/home/node/.n8n
+    extra_hosts:
+      # Permite que o nó SSH do n8n alcance o sshd do próprio host
+      # (a interface Tailscale 100.x não é roteável de dentro do container).
+      - "host.docker.internal:host-gateway"
     networks:
       - traefik
     labels:
