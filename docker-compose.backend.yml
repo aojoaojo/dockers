@@ -13,6 +13,10 @@ services:
       - DATABASE_URL=postgres://jonepiece:${POSTGRES_PASSWORD}@jonepiece-db:5432/jonepiece
       - ALLOWED_ORIGIN=https://${DOMAIN_NAME_JONE},https://${DOMAIN_NAME_BOLAO},http://localhost:3000,http://localhost:3001,http://localhost:5173,http://localhost:4173
       - JWT_SECRET=${JWT_SECRET}
+      # Web Push (bolão). Sem as chaves VAPID o push fica desligado (no-op).
+      - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
+      - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
+      - VAPID_SUBJECT=${VAPID_SUBJECT}
     networks:
       - traefik
       - jonepiece_net
